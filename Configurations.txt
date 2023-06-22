@@ -1,0 +1,12 @@
+1. Installation of Scapy:
+
+sudo apt-get install python-scapy
+
+2. Steps for performing the project task:
+
+
+Finding the threshold of the usual traffic:
+
+a. Creating a Mininet topology by entering the following command:
+
+$ sudo mn --switch ovsk --topo tree,depth=2,fanout=8 --controller=remote,ip=127.0.0.1,port=6633
