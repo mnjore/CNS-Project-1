@@ -59,8 +59,8 @@ $ python3 ./pox.py forwarding.l3_learning_editted
 3. Run Xterm on a host and generate traffic:
 
 ```
-- xterm h1
-- python3 traffic.py –s 2 –e 64
+$ xterm h1
+$ python3 traffic.py –s 2 –e 64
 ```
 
 ## Contributing 
