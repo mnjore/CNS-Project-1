@@ -13,19 +13,19 @@ To install the DDoS attack detection model, follow these steps:
 
 * This can be found at https://releases.ubuntu.com/
 
-2. Install Mininet for network simulation:
-
-```
-$ sudo apt install mininet
-$ sudo apt install xterm
-```
-
-3. Install various tools to be used:
+2. Install various tools to be used:
 
 ```
 $ sudo apt install vim
 $ sudo apt install python3-pip
 $ sudo apt install git
+```
+
+3. Install Mininet for network simulation:
+
+```
+$ sudo apt install mininet
+$ sudo apt install xterm
 ```
 
 4. Install Scapy for packet generation:
