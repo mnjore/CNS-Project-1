@@ -14,10 +14,10 @@ To install the DDoS attack detection model, follow these steps:
 * This can be found at https://releases.ubuntu.com/
 
 2. Install Mininet for network simulation:
-'''
-- sudo apt install mininet
-- sudo apt install xterm
-'''
+```
+$ sudo apt install mininet
+$ sudo apt install xterm
+```
 
 3. Install various tools to be used:
 
