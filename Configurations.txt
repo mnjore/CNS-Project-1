@@ -37,4 +37,5 @@ xterm h1
 python3 traffic.py –s 2 –e 64
 
 
+
 python3 ddos_attack.py 10.0.0.[number of target host]
