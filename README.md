@@ -8,10 +8,10 @@ DDoS attacks pose a significant threat to network infrastructure as they can lea
 - Xterm
 - POX controller
 ## Installation
-To use the DDoS attack detection model, follow these steps:
+To install the DDoS attack detection model, follow these steps:
 1. Install a version of Linux that can install a Python version between 3.7 to 3.9:
 
-This can be found at https://releases.ubuntu.com/
+* This can be found at https://releases.ubuntu.com/
 
 2. Install Mininet for network simulation:
 
@@ -32,6 +32,22 @@ sudo apt-get install python3-scapy
 
 pip install pox
 git clone http://github.com/noxrepo/pox
+
+## Usage
+To use the DDoS attack detection model, follow these steps:
+
+1. Create a Mininet topology by entering the following command:
+
+sudo mn --switch ovsk --topo tree,depth=2,fanout=8 --controller=remote,ip=127.0.0.1,port=6633
+
+2. Run the Pox controller
+
+python3 ./pox.py forwarding.l3_learning_editted
+
+8. Run xterm on a host and launch traffic:
+
+xterm h1
+python3 traffic.py –s 2 –e 64
 
 ## Authors 
 Mark Njore
