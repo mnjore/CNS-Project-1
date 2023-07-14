@@ -9,7 +9,7 @@ DDoS attacks pose a significant threat to network infrastructure as they can lea
 - POX controller
 ## Installation
 To use the DDoS attack detection model, follow these steps:
-1. Install a version of Linux that can install a python version between 3.7 to 3.9:
+1. Install a version of Linux that can install a Python version between 3.7 to 3.9:
 
 This can be found at https://releases.ubuntu.com/
 
@@ -28,10 +28,10 @@ sudo apt install git
 
 sudo apt-get install python3-scapy
 
-5. Install a SDN controller (choose form Opendaylight, Ryu, Floodlight, Beacon, POX, ONOS, OpenMUL, Maestro):
+5. Install an SDN controller (choose from Opendaylight, Ryu, Floodlight, Beacon, POX, ONOS, OpenMUL, Maestro):
 
 pip install pox
-
 git clone http://github.com/noxrepo/pox
+
 ## Authors 
 Mark Njore
