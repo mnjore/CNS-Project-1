@@ -54,3 +54,6 @@ Advice and contributions are welcome! If you have any suggestions, improvements,
 
 ## Authors 
 Mark Njore
+
+## Acknowledgments
+I would like to start by expressing my sincere gratitude to everyone who has contributed to the success of this project. First of all, I would like to express my sincere gratitude to the supervisor, Dr. Rop, for his advice, support and knowledge throughout the project. The direction and amount of this work was greatly influenced by Mr. Tabulu, the project lecturer with his insightful comments and helpful critiques. He also provided me with important tools and supporting scientific material that helped in the research and documentation process. I would also like to express my sincere gratitude to my family and friends for their constant support and inspiration.  Finally, we would like to thank open source community for providing the essential tools and software.
