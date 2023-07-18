@@ -53,14 +53,14 @@ $ sudo mn --switch ovsk --topo tree,depth=2,fanout=8 --controller=remote,ip=127.
 2. Run the Pox controller
 
 ```
-$ python3 ./pox.py forwarding.l3_learning_editted
+$ python3 ./pox.py forwarding.l3_learning_edited
 ```
 
 3. Run Xterm on a host and generate traffic:
 
 ```
 $ xterm h1
-$ python3 traffic.py –s 2 –e 64
+$ python3 traffic.py –f 2 –l 64
 ```
 
 ## Contributing 
