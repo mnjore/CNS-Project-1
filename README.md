@@ -61,6 +61,7 @@ $ python3 ./pox.py forwarding.l3_learning_edited
 ```
 $ xterm h1
 $ python3 traffic.py –f 2 –l 64
+$ python3 ddos_attack.py 10.0.0.64
 ```
 
 ## Contributing 
