@@ -40,16 +40,26 @@ from pox.lib.revent import *
 import itertools 
 import time
 
-#------------------------------------------------editing-----------------------------------------------------------
+#*******************************************************EDITED PART**************************************************************
 
+# Import the entropy class from entropy.py
 from .entropy import Entropy
 diction = {}
-ent_obj = Entropy()
-set_Timer = False
-defendDDOS=False
+number = 0
+cnt = 0
 
-#--------------------------------------------end of editing----------------------------------------------------------
+# Create an instance of the class
+eObject = Entropy()
+set_Timer = False
+
+# Pox by default has a DDoS defense, so we turn it off
+defendDDOS = False
+
+# Used for debugging
 log = core.getLogger()
+
+#***************************************************END OF EDITED PART************************************************************
+
 # Timeout for flows
 FLOW_IDLE_TIMEOUT = 10
 
@@ -143,27 +153,6 @@ class l3_switch (EventMixin):
     for k in empty:
       del self.lost_buffers[k]
 
- # def dropDDOS ():
-    # Called by a timer so that we can remove old items.
-    #empty = []
-    #for k,v in self.lost_buffers.iteritems():
-    #  dpid,ip = k
-
-    #  for item in list(v):
-    #    expires_at,buffer_id,in_port = item
-    #    if expires_at < time.time():
-          # This packet is old.  Tell this switch to drop it.
-    #      v.remove(item)
-              
-
-#    po = of.ofp_packet_out(buffer_id = buffer_id, in_port = in_port)
-#    core.openflow.sendToDPID(dpid, po)
-    #if len(v) == 0: empty.append(k)
-
-    # Remove empty buffer bins
-    #for k in empty:
-    #  del self.lost_buffers[k]
-
   def _send_lost_buffers (self, dpid, ipaddr, macaddr, port):
     """
     We may have "lost" buffers -- packets we got but didn't know
@@ -185,70 +174,116 @@ class l3_switch (EventMixin):
     dpid = event.connection.dpid
     inport = event.port
     packet = event.parsed
+    
+#*******************************************************EDITED PART**************************************************************
+
     global set_Timer
     global defendDDOS
     global blockPort
-    timerSet =False
     global diction
-    def preventing():
+    
+    def detecting():
       global diction
       global set_Timer
-      if not set_Timer:
-        set_Timer =True
-      #Timer(1, _timer_func(), recurring=True)
 
-
-      #print"\n\n*********new packetIN************"
+      '''
+      print("\n%%%%%%%%new packet%%%%%%%%%%%")
+      '''
       if len(diction) == 0:
-        print("Empty diction ",str(event.connection.dpid), str(event.port))
+        '''
+        print("Testing1 ",str(diction[event.connection.dpid][event.port][event.parsed.next.dstip]))
+        '''
         diction[event.connection.dpid] = {}
-        diction[event.connection.dpid][event.port] = 1
+        diction[event.connection.dpid][event.port] = {}
+        diction[event.connection.dpid][event.port][event.parsed.next.dstip] = 1
+        
       elif event.connection.dpid not in diction:
         diction[event.connection.dpid] = {}
-        diction[event.connection.dpid][event.port] = 1
-        #print "ERROR"
-      else:
-        if event.connection.dpid in diction:
-      # temp = diction[event.connection.dpid]
-      #print(temp)
-      #print "error check " , str(diction[event.connection.dpid][event.port])
-          if event.port in diction[event.connection.dpid]:
-            temp_count=0
-            temp_count =diction[event.connection.dpid][event.port]
-            temp_count = temp_count+1
-            diction[event.connection.dpid][event.port]=temp_count
-            #print "printting dpid port number and its packet count: ",  str(event.connection.dpid), str(diction[event.connection.dpid]), str(diction[event.connection.dpid][event.port])
-          else:
-            diction[event.connection.dpid][event.port] = 1
-   
-      print ("\n",datetime.datetime.now(), ": printing diction ",str(diction),"\n")
+        diction[event.connection.dpid][event.port] = {}
+        diction[event.connection.dpid][event.port][event.parsed.next.dstip] = 1
+        '''
+        print("Testing2 ",str(diction[event.connection.dpid][event.port][event.parsed.next.dstip]))
+        '''
+      # Runs if switch id is in the diction
+      elif event.connection.dpid in diction:
+          
+          if event.port not in diction[event.connection.dpid]:
+            diction[event.connection.dpid][event.port] = {}
+            diction[event.connection.dpid][event.port][event.parsed.next.dstip] = 1
+            '''
+            print("Testing3 ",str(diction[event.connection.dpid][event.port][event.parsed.next.dstip]))
+            '''
+            
+          elif event.port in diction[event.connection.dpid]:
+            # temp_counter = diction[event.connection.dpid][event.port][event.parsed.next.dstip]
+          
+            if event.parsed.next.dstip in diction[event.connection.dpid][event.port]:
+              '''
+              print(temp_counter)
+              print("Testing4 ",str(diction[event.connection.dpid][event.port][event.parsed.next.dstip]))
+              '''
+              temp_counter = 0
+              temp_counter = diction[event.connection.dpid][event.port][event.parsed.next.dstip]
+              temp_counter = temp_counter+1
+              diction[event.connection.dpid][event.port][event.parsed.next.dstip] = temp_counter
+    
+            else:
+              diction[event.connection.dpid][event.port][event.parsed.next.dstip] = 1
+      
+      ddosAlert()   
+      '''
+      print ("\n",datetime.datetime.now(), " - diction - ",str(diction),"\n")
+      '''
     
     
-    def _timer_func ():
+    def ddosAlert ():
       global diction
       global set_Timer
-      if set_Timer==True:
-        #print datetime.datetime.now(),": calling timer fucntion now!!!!!" 
-        for k,v in diction.items():
-          for i,j in v.items():
-            if j >=50:
-              print( "_____________________________________________________________________________________________")
-              print ("\n",datetime.datetime.now(),"*******    DDOS DETECTED   ********")
-              print ("\n",str(diction))
-              print ("\n",datetime.datetime.now(),": BLOCKED PORT NUMBER  : ", str(i), " OF SWITCH ID: ", str(k))
-              print( "\n_____________________________________________________________________________________________")
-
-              #self.dropDDOS ()
-              dpid = k
-              msg = of.ofp_packet_out(in_port=i)
-              #msg.priority=42
-              #msg.in_port = event.port
-              #po = of.ofp_packet_out(buffer_id = buffer_id, in_port = in_port)
-              core.openflow.sendToDPID(dpid,msg)
-
-              
+      global cnt
+      
+      '''
+      print(datetime.datetime.now(),"- timer running")
+      '''
+      for a,b in diction.items():
+        for x,y in b.items():
+          for m,n in y.items():
+            if n >=50:
+              cnt +=1
                 
-      diction={}
+              if cnt <5:
+                print("________________________________________________________________________________________________\n\n")
+                print("\n","                                        WARNING ",cnt,":                                         ")
+                print("\n                     POTENTIAL DDoS DETECTED at ",datetime.datetime.now(),"                              ")
+                '''
+                print("\n",str(diction))
+                print("\n",datetime.datetime.now(),": BLOCKED PORT NUMBER  : ", str(x), " OF SWITCH ID: ", str(a))
+                '''
+                print( "\n\n________________________________________________________________________________________________\n")
+              
+              else:
+                print("________________________________________________________________________________________________\n\n")
+                print("\n","                                            ALERT!!!                                             ")
+                print("\n                          DDoS DETECTED at ",datetime.datetime.now(),"                                  ")
+                print("\n                                     TARGETED AT ",str(m),"                                             ")
+                '''
+                print("\n",str(diction))
+                print("\n",datetime.datetime.now(),": BLOCKED PORT NUMBER  : ", str(x), " OF SWITCH ID: ", str(a))
+                '''
+                print( "\n\n________________________________________________________________________________________________\n")
+
+                self._handle_expiration()
+                dpid = a
+                msg = of.ofp_packet_out(in_port=x)
+                #msg.priority=42
+                #msg.in_port = event.port
+                #po = of.ofp_packet_out(buffer_id = buffer_id, in_port = in_port)
+                core.openflow.sendToDPID(dpid,msg)
+                set_Timer = True
+                  
+              diction = {}  
+
+                    
+#**************************************************END OF EDITED PART**************************************************************
 
     if not packet.parsed:
       log.warning("%i %i ignoring unparsed packet", dpid, inport)
@@ -264,24 +299,30 @@ class l3_switch (EventMixin):
     if packet.type == ethernet.LLDP_TYPE:
       # Ignore LLDP packets
       return
+    
 
-#-------------------------------------------editing--------------------------------------------------
+    
     if isinstance(packet.next, ipv4):
       log.debug("%i %i IP %s => %s", dpid,inport,
                 packet.next.srcip,packet.next.dstip)
+                
+#*******************************************************EDITED PART**************************************************************
 
-      ent_obj.statcolect(event.parsed.next.dstip)
-      print ("\n***** Entropy Value = ",str(ent_obj.value),"*****\n")
-      if ent_obj.value <0.5:
-        preventing()
-        if timerSet is not True:
-          Timer(2, _timer_func, recurring=True)
-          timerSet=False
-      else:
-        timerSet=False
+      eObject.ipCollect(event.parsed.next.dstip)
+      if set_Timer == False:
+        global number
+        number +=1
+        if number == 50:
+          number = 0
+          print("\n*****                        Entropy Value = ",str(eObject.value),"                          *****\n")
+      
+        if eObject.value < 2.5:
+        
+          detecting()
+        
           
-
-            
+#***************************************************END OF EDITED PART**************************************************************
+       
       # Send any waiting packets...
       self._send_lost_buffers(dpid, packet.next.srcip, packet.src, inport)
 
@@ -298,13 +339,7 @@ class l3_switch (EventMixin):
       else:
         log.debug("%i %i learned %s", dpid,inport,packet.next.srcip)
       self.arpTable[dpid][packet.next.srcip] = Entry(inport, packet.src)
-      #nandan: getting source ip address from the packetIn
-      #myPacketInSrcIP= packet.next.srcip
-      #myPacketInSrcEth= packet.src
-      #myPacketInDstIP= packet.next.dstip
-      #myPacketInDstEth= packet.dst
 
-      #print "switcID: "+str(dpid)+" ,Port: "+str(event.port)+" ,MAC address: "+str(myPacketInSrcEth)+" ,SrcIP: "+ str(myPacketInSrcIP)+", Dst Mac: "+str(myPacketInDstEth)+", Dst IP: "+str(myPacketInDstEth)
       # Try to forward
       dstaddr = packet.next.dstip
       if dstaddr in self.arpTable[dpid]:
@@ -449,9 +484,6 @@ class l3_switch (EventMixin):
       msg = of.ofp_packet_out(in_port = inport, data = event.ofp,
           action = of.ofp_action_output(port = of.OFPP_FLOOD))
       event.connection.send(msg)
-
-
-
 
 
 def launch (fakeways="", arp_for_unknowns=None, wide=False):
