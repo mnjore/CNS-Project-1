@@ -25,6 +25,11 @@ $ sudo apt install git
 
 ```
 $ sudo apt install mininet
+```
+
+4. Install XTerm terminal emulator:
+
+```
 $ sudo apt install xterm
 ```
 
@@ -34,7 +39,7 @@ $ sudo apt install xterm
 $ sudo apt-get install python3-scapy
 ```
 
-5. Install an SDN controller (choose from Opendaylight, Ryu, Floodlight, Beacon, POX, ONOS, OpenMUL, Maestro):
+5. Install the SDN controller (POX is used here):
 
 ```
 $ pip install pox
@@ -50,9 +55,10 @@ To use the DDoS attack detection model, follow these steps:
 $ sudo mn --switch ovsk --topo tree,depth=2,fanout=8 --controller=remote,ip=127.0.0.1,port=6633
 ```
 
-2. Run the Pox controller
+2. Run the Pox controller in a separate terminal:
 
 ```
+$ cd pox
 $ python3 ./pox.py forwarding.l3_learning_edited
 ```
 
@@ -61,8 +67,19 @@ $ python3 ./pox.py forwarding.l3_learning_edited
 ```
 $ xterm h1
 $ python3 traffic.py –f 2 –l 64
+```
+
+Where f = first value and l = last value of the number of hosts to which we want to send packets.
+
+4. Launch the DDoS attack on a specific host:
+
+```
 $ python3 ddos_attack.py 10.0.0.64
 ```
+
+After successful completion of the above steps you can see the entropy values on the POX controller terminal 
+
+
 
 ## Contributing 
 Advice and contributions are welcome! If you have any suggestions, improvements, or bug fixes, please submit a pull request.
