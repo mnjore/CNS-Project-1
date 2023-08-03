@@ -69,7 +69,7 @@ $ xterm h1
 $ python3 traffic.py –f 2 –l 64
 ```
 
-Where f = first value and l = last value of the number of hosts to which we want to send packets.
+Where f = first value and l = last value of the number of hosts we want to send packets. After the successful completion of the above steps, you can see the entropy values on the POX controller terminal.
 
 4. Launch the DDoS attack on a specific host:
 
@@ -77,15 +77,14 @@ Where f = first value and l = last value of the number of hosts to which we want
 $ python3 ddos_attack.py 10.0.0.64
 ```
 
-After successful completion of the above steps you can see the entropy values on the POX controller terminal 
-
+After the successful completion of the above steps, you can see that the DDoS attack has been detected on the POX controller terminal. 
 
 
 ## Contributing 
-Advice and contributions are welcome! If you have any suggestions, improvements, or bug fixes, please submit a pull request.
+Advice and contributions are welcome! Please submit a pull request if you have any suggestions, improvements, or bug fixes.
 
 ## Authors 
 Mark Njore
 
 ## Acknowledgments
-I would like to start by expressing my sincere gratitude to everyone who has contributed to the success of this project. First of all, I would like to express my sincere gratitude to the supervisor, Dr. Rop, for his advice, support and knowledge throughout the project. The direction and amount of this work was greatly influenced by Mr. Tabulu, the project lecturer with his insightful comments and helpful critiques. He also provided me with important tools and supporting scientific material that helped in the research and documentation process. I would also like to express my sincere gratitude to my family and friends for their constant support and inspiration.  Finally, we would like to thank open source community for providing the essential tools and software.
+I would like to start by expressing my sincere gratitude to everyone who has contributed to the success of this project. First of all, I would like to express my sincere gratitude to the supervisor, Dr. Rop, for his advice, support and knowledge throughout the project. The direction and amount of this work were greatly influenced by Mr. Tabulu, the project lecturer with his insightful comments and helpful critiques. He also provided me with important tools and supporting scientific material that helped in the research and documentation process. I would also like to express my sincere gratitude to my family and friends for their constant support and inspiration.  Finally, we would like to thank the open source community for providing the essential tools and software.
